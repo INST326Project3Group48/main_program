@@ -1,4 +1,27 @@
-# the main program
+import calendar
+
+class AvailabilityGenerator:
+    def __init__(self, year, month):
+        self.year = year
+        self.month = month
+        days_in_month = calendar.monthrange(year, month)[1] # returns a tuple with month, and # of days in that month, we store the # of days in this variable
+        self.availability = {day: {"AM": "available", "PM": "available"} for day in range(1, days_in_month + 1)} # creates a dict with each day of the month being keys, and AM/PM avilability being the value, does this for the amount of days stored in the variable days_in_month
+
+    # sets the availability for specified caregiver 
+    def create_availability(self, day, shift, status, name):
+        if day in self.availability and shift.upper() in self.availability[day]:
+            self.availability[day][shift.upper()] = status
+            print(f"{name} updated availability for Day {self.month}/{day}/{self.year}, {shift.upper()} shift to {status}.")
+        else:
+            print("Invalid day or shift. Use 'AM' or 'PM' for the shift.")
+    
+    # allows the user to view the monthky availability for the caregiver
+    def display_availability(self, name):
+        print(f"Availability for {name} in {calendar.month_name[self.month]},{self.year}:")
+        for day, shifts in self.availability.items():
+            print(f"{calendar.month_name[self.month]} {day}: \nAM - {shifts['AM']}\nPM - {shifts['PM']}")
+
+    
 
 class CareGivers:
 
@@ -10,6 +33,26 @@ class CareGivers:
         self.email = email
         self.pay_rate = pay_rate
         self.hours_per_day = hours_per_day
+        self.month_availability = None # placeholder for avilability
+    
+    # generates the default availability for a specified month
+    def create_monthly_availability(self, year, month):
+        self.monthly_availability = AvailabilityGenerator(year, month) # all AM/PM shifts of everyday of the specified month are set to available
+        print(f"{self.name}'s availability for {calendar.month_name[month]} {year} has been created.")
+    
+    # allows user to update avilability for specific days of the month
+    def update_availability(self, day, shift, status):
+        if self.monthly_availability:
+            self.monthly_availability.create_availability(day, shift, status, self.name)
+        else:
+            print("Please create your monthly availability.")
+    
+    # allows user to view their avilability for a specified month
+    def display_availability(self):
+        if self.monthly_availability:
+            self.monthly_availability.display_availability(self.name)
+        else:
+            print("Please create your monthly availability.")
 
     # adds the instance of the class to our dictionary 
     def add_caregiver(self):
@@ -61,18 +104,4 @@ class CareGivers:
             print(f"Hours/Day: {caregiver_info[2]}")
             print(f"Pay Rate: ${caregiver_info[3]}/hour")
             print("-" * 50)
-
-# Example Instances Below
-# caregiver1 = CareGivers("John Doe", "123-456-7890", "john@example.com", 8)
-# caregiver2 = CareGivers("Jane Smith", "987-654-3210", "jane@example.com", 6)
-# caregiver3 = CareGivers("Emily Smith", "987-654-3210", "emily@example.com", 7)
-# caregiver4 = CareGivers("Michael Smith", "987-654-3210", "michael@example.com", 5)
-
-# caregiver1.add_caregiver()
-# caregiver2.add_caregiver()
-# caregiver3.add_caregiver()
-# caregiver4.add_caregiver()
-
-# CareGivers.edit_caregiver("Emily Smith")
-
-# CareGivers.display_caregivers()
+        
