@@ -25,6 +25,7 @@ class AvailabilityGenerator:
         else:
             print("Invalid day or shift. Use 'AM' or 'PM' for the shift.")
 
+
     # Allows the user to view the monthky availability for the caregiver
     def display_availability(self, name):
         print(
@@ -123,6 +124,7 @@ class CareGivers:
             self.monthly_availability.display_availability(self.name)
         else:
             print("Please create your monthly availability first.")
+    #requirement 3:
 
     # Requirement 4: Calculate weekly and monthly pay
     def calculate_pay(self):
@@ -134,4 +136,15 @@ class CareGivers:
         else:
             print(f"{self.name} has no hours specified.")
 
+#executional code for:availability_generator
+availability_generator = AvailabilityGenerator(2024, 11)
 
+# Test the create_availability method
+availability_generator.create_availability(5, "AM", "preferred", "Amber")
+availability_generator.create_availability(5, "PM", "unavailable", "Amber")
+# Test an invalid status
+availability_generator.create_availability(10, "AM", "busy", "Amber")
+# Test an invalid day
+availability_generator.create_availability(35, "AM", "available", "Amber")
+# Test an invalid shift
+availability_generator.create_availability(10, "Night", "available", "Amber")
