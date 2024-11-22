@@ -132,6 +132,123 @@ class CareGivers:
             print(f"Monthly Pay for {self.name}: ${monthly_pay}")
         else:
             print(f"{self.name} has no hours specified.")
+            
+#Requirement 3
 
+# Availability options
+AVAILABILITY_OPTIONS = ["preferred", "available", "unavailable"]
+
+# Caregivers schedule
+class CareSchedule:
+    def __init__(self):
+        self.caregivers = {}
+        self.schedule = self.create_default_schedule()
+
+    # Default schedule for a week
+    @staticmethod
+    def create_default_schedule():
+        schedule = {}
+        for day in range(1, 8):  # 7 days a week (Mon-Sun)
+            schedule[day] = {
+                "7:00AM - 1:00PM": {"status": "available", "caregiver": None},
+                "1:00PM - 7:00PM": {"status": "available", "caregiver": None},
+            }
+        return schedule
+
+    # Add caregiver to the system
+    def add_caregiver(self, name, phone, email, hours_per_day, pay_rate=20):
+        self.caregivers[name.lower()] = {
+            "phone": phone,
+            "email": email,
+            "hours_per_day": hours_per_day,
+            "pay_rate": pay_rate,
+        }
+        print(f"Caregiver {name} added successfully!")
+
+    # Assign a caregiver to a shift based on their availability
+    def assign_shift(self, day, shift, caregiver_name, status):
+        if caregiver_name.lower() in self.caregivers:
+            self.schedule[day][shift] = {"status": status, "caregiver": caregiver_name}
+            print(
+                f"Shift on {calendar.day_name[day - 1]} {shift} assigned to {caregiver_name} as {status}."
+            )
+        else:
+            print(f"Caregiver {caregiver_name} not found.")
+
+    # Generate the HTML schedule
+    def display_schedule_as_html(self):
+        html_schedule = """
+        <html>
+        <head>
+            <title>Care Schedule</title>
+            <style>
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: 20px 0;
+                }
+                th, td {
+                    border: 1px solid black;
+                    padding: 10px;
+                    text-align: center;
+                }
+                th {
+                    background-color: #f2f2f2;
+                }
+                td {
+                    height: 100px;
+                    vertical-align: top;
+                }
+            </style>
+        </head>
+        <body>
+            <h1>Weekly Care Schedule</h1>
+            <table>
+                <tr>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+                <tr>
+        """
+
+        # Fill in the schedule
+        for day in range(1, 8):
+            morning = self.schedule[day]["7:00AM - 1:00PM"]
+            afternoon = self.schedule[day]["1:00PM - 7:00PM"]
+            html_schedule += f"<td><b>Morning:</b> {morning['status']} ({morning['caregiver'] or 'None'})<br>"
+            html_schedule += f"<b>Afternoon:</b> {afternoon['status']} ({afternoon['caregiver'] or 'None'})</td>"
+
+        html_schedule += """
+                </tr>
+            </table>
+        </body>
+        </html>
+        """
+
+        # Save to an HTML file
+        with open("care_schedule.html", "w") as file:
+            file.write(html_schedule)
+        print("HTML care schedule generated successfully!")
+
+# Executional code for HTML
+if __name__ == "__main__":
+    care_schedule = CareSchedule()
+
+    # Add caregivers
+    care_schedule.add_caregiver("Michael Girma", "3016548980", "mike@gmail.com", 8)
+    care_schedule.add_caregiver("Amber Smith", "3015551234", "amber@gmail.com", 6)
+
+    # Assign shifts based on availability
+    care_schedule.assign_shift(1, "7:00AM - 1:00PM", "Michael Girma", "preferred")
+    care_schedule.assign_shift(1, "1:00PM - 7:00PM", "Amber Smith", "available")
+    care_schedule.assign_shift(3, "7:00AM - 1:00PM", "Amber Smith", "preferred")
+
+    # Generate the HTML calendar
+    care_schedule.display_schedule_as_html()
 
 
