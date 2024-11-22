@@ -1,4 +1,3 @@
-# the main program
 import calendar
 
 # Class to manage caregiver availability
@@ -24,7 +23,6 @@ class AvailabilityGenerator:
                 print("Invalid status. Use 'preferred', 'available', or 'unavailable'.")
         else:
             print("Invalid day or shift. Use 'AM' or 'PM' for the shift.")
-
 
     # Allows the user to view the monthky availability for the caregiver
     def display_availability(self, name):
@@ -125,7 +123,6 @@ class CareGivers:
         else:
             print("Please create your monthly availability first.")
 
-
     # Requirement 4: Calculate weekly and monthly pay
     def calculate_pay(self):
         if self.hours_per_day:
@@ -135,7 +132,7 @@ class CareGivers:
             print(f"Monthly Pay for {self.name}: ${monthly_pay}")
         else:
             print(f"{self.name} has no hours specified.")
-
+            
 #Requirement 3
 
 # Availability options
@@ -253,7 +250,5 @@ if __name__ == "__main__":
 
     # Generate the HTML calendar
     care_schedule.display_schedule_as_html()
-
-
 
 
