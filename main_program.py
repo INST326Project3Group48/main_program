@@ -256,7 +256,8 @@ class Driver:
     def manage_availability(self):
         print("\n--- Managing Availability ---")
         self.availability_generator.create_availability(5, "AM", "preferred", "Amber")
-        self.availability_generator.create_availability(5, "PM", "unavailable", "Amber")
+        self.availability_generator.create_availability(5, "PM", "preferred", "Amber")
+        self.availability_generator.create_availability(2, "PM", "available", "Michael")
         self.availability_generator.display_availability("Amber")
 
     def generate_html_schedule(self):
