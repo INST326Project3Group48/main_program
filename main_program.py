@@ -274,14 +274,16 @@ class Driver:
 
     def assign_shifts(self):
         print("\n--- Assigning Shifts ---")
-        self.care_schedule.assign_shift(1, "7:00AM - 1:00PM", "Amber ", "preferred")
+        self.care_schedule.assign_shift(4, "7:00AM - 1:00PM", "Amber ", "preferred")
         self.care_schedule.assign_shift(6, "1:00PM - 10:00PM", "Michael", "available")
         self.care_schedule.assign_shift(3, "7:00AM - 1:00PM", "Amber", "preferred")
+        self.care_schedule.assign_shift(1, "6:00AM - 2:00PM", "Michael","available")
 
     def manage_availability(self):
         print("\n--- Managing Availability ---")
         self.availability_generator.create_availability(5, "AM", "preferred", "Amber")
-        self.availability_generator.create_availability(5, "PM", "unavailable", "Amber")
+        self.availability_generator.create_availability(5, "PM", "preferred", "Amber")
+        self.availability_generator.create_availability(2, "PM", "available", "Michael")
         self.availability_generator.display_availability("Amber")
 
     def generate_html_schedule(self):
