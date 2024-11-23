@@ -1,3 +1,4 @@
+# the main program
 import calendar
 
 # Class to manage caregiver availability
@@ -233,30 +234,55 @@ class CareSchedule:
             file.write(html_schedule)
         print("HTML care schedule generated successfully!")
 
+
+
 class Driver:
     def __init__(self):
         self.availability_generator = AvailabilityGenerator(2024, 11)
         self.care_schedule = CareSchedule()
 
-    def run_availability_tests(self):
-        # Run AvailabilityGenerator tests
+    def add_sample_caregivers(self):
+        print("\n--- Adding Caregivers ---")
+        self.care_schedule.add_caregiver("Amber", "3015551234", "amber@gmail.com", 8)
+        self.care_schedule.add_caregiver("Michael", "3016548980", "mike@gmail.com", 6)
+
+    def assign_shifts(self):
+        print("\n--- Assigning Shifts ---")
+        self.care_schedule.assign_shift(1, "7:00AM - 1:00PM", "Amber ", "preferred")
+        self.care_schedule.assign_shift(6, "1:00PM - 10:00PM", "Michael", "available")
+        self.care_schedule.assign_shift(3, "7:00AM - 1:00PM", "Amber", "preferred")
+
+    def manage_availability(self):
+        print("\n--- Managing Availability ---")
         self.availability_generator.create_availability(5, "AM", "preferred", "Amber")
+        self.availability_generator.create_availability(5, "PM", "unavailable", "Amber")
         self.availability_generator.display_availability("Amber")
 
-    def run_schedule_tests(self):
-        # Run CareSchedule tests
-        self.care_schedule.add_caregiver("Amber", "3015551234", "amber@gmail.com", 8)
+    def generate_html_schedule(self):
+        print("\n--- Generating HTML Schedule ---")
         self.care_schedule.display_schedule_as_html()
 
+    def calculate_caregiver_pay(self):
+        print("\n--- Calculating Caregiver Pay ---")
+        for name, details in self.care_schedule.caregivers.items():
+            caregiver = CareGivers(
+                name.capitalize(),
+                details["phone"],
+                details["email"],
+                details["hours_per_day"],
+                details["pay_rate"],
+            )
+            caregiver.calculate_pay()
+
     def run(self):
-        # Execute both availability and scheduling tests
-        self.run_availability_tests()
-        self.run_schedule_tests()
+        self.add_sample_caregivers()
+        self.assign_shifts()
+        self.manage_availability()
+        self.calculate_caregiver_pay()
+        self.generate_html_schedule()
 
 
 # Main Program
 if __name__ == "__main__":
     driver = Driver()
     driver.run()
-
-
