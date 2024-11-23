@@ -31,12 +31,11 @@ Each caregiver has their own availability for shifts that is generally the same 
 3. Create the group repository and add a main program document. See example.
 4. Create branches off the main program for each group member, and assign part of the program to each member.
 5. Each member should work on their branch.
-6. When each member is finished, merge the branches back into the main program. You may use 'merge' or 'pull requests', your choice.
-7. iterate and debug as necessary.
+6. When each member is finished, merge the branches back into the main program. You may use 'merge' or 'pull requests', your choice. Iterate and debug as necessary.
 
 ### Working With HTML
 Since this is a course on python, not HTML, you are not expected to know HTML. 
-Therefore, you may copy applicable portions of the sample code or use AI to write the HTML portions of your application. Ypu should write the main python code yourself.
+Therefore, you may copy applicable portions of the sample code or use AI to write the HTML portions of your application. You should write the main python code yourself.
 
 ### What You Need To Turn In
 
