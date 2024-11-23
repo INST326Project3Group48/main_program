@@ -160,10 +160,12 @@ if __name__ == "__main__":
     caregiver1.calculate_pay()
 # -------------------------------------------------
 
-#Requirement 3:HTML For the Calendar
+
+# Requirement 3: HTML For the Calendar
 # Availability options
 AVAILABILITY_OPTIONS = ["preferred", "available", "unavailable"]
-# Caregivers schedule
+
+
 class CareSchedule:
     def __init__(self):
         self.caregivers = {}
@@ -192,13 +194,18 @@ class CareSchedule:
 
     # Assign a caregiver to a shift based on their availability
     def assign_shift(self, day, shift, caregiver_name, status):
-        if caregiver_name.lower() in self.caregivers:
-            self.schedule[day][shift] = {"status": status, "caregiver": caregiver_name}
+        if day not in self.schedule or shift not in self.schedule[day]:
+            print(f"Invalid day ({day}) or shift ({shift}).")
+            return
+        caregiver_name = caregiver_name.strip().lower()
+        if caregiver_name in self.caregivers:
+            self.schedule[day][shift] = {
+                "status": status, "caregiver": caregiver_name.capitalize()}
             print(
-                f"Shift on {calendar.day_name[day - 1]} {shift} assigned to {caregiver_name} as {status}."
+                f"Shift on {calendar.day_name[day - 1]} {shift} assigned to {caregiver_name.capitalize()} as {status}."
             )
         else:
-            print(f"Caregiver {caregiver_name} not found.")
+            print(f"Caregiver {caregiver_name.capitalize()} not found.")
 
     # Generate the HTML schedule
     def display_schedule_as_html(self):
@@ -245,8 +252,10 @@ class CareSchedule:
         for day in range(1, 8):
             morning = self.schedule[day]["7:00AM - 1:00PM"]
             afternoon = self.schedule[day]["1:00PM - 7:00PM"]
-            html_schedule += f"<td><b>Morning:</b> {morning['status']} ({morning['caregiver'] or 'None'})<br>"
-            html_schedule += f"<b>Afternoon:</b> {afternoon['status']} ({afternoon['caregiver'] or 'None'})</td>"
+            html_schedule += f"<td><b>Morning:</b> {morning['status']} ({morning['caregiver'] or 'No caregiver'})<br>"
+            html_schedule += f"<b>Afternoon:</b> {afternoon['status']} ({afternoon['caregiver'] or 'No caregiver'})</td>"
+            if day < 7:  # Only close the row at the end of the week
+                html_schedule += "</tr><tr>"
 
         html_schedule += """
                 </tr>
@@ -261,52 +270,41 @@ class CareSchedule:
         print("HTML care schedule generated successfully!")
 
 
-
 class Driver:
     def __init__(self):
-        self.availability_generator = AvailabilityGenerator(2024, 11)
         self.care_schedule = CareSchedule()
 
     def add_sample_caregivers(self):
         print("\n--- Adding Caregivers ---")
-        self.care_schedule.add_caregiver("Amber", "3015551234", "amber@gmail.com", 8)
-        self.care_schedule.add_caregiver("Michael", "3016548980", "mike@gmail.com", 6)
+        self.care_schedule.add_caregiver(
+            "Amber", "3015551234", "amber@gmail.com", 8)
+        self.care_schedule.add_caregiver(
+            "Michael", "3016548980", "mike@gmail.com", 6)
 
     def assign_shifts(self):
         print("\n--- Assigning Shifts ---")
-        self.care_schedule.assign_shift(4, "7:00AM - 1:00PM", "Amber ", "preferred")
-        self.care_schedule.assign_shift(6, "1:00PM - 10:00PM", "Michael", "available")
-        self.care_schedule.assign_shift(3, "7:00AM - 1:00PM", "Amber", "preferred")
-        self.care_schedule.assign_shift(1, "6:00AM - 2:00PM", "Michael","available")
-
-    def manage_availability(self):
-        print("\n--- Managing Availability ---")
-        self.availability_generator.create_availability(5, "AM", "preferred", "Amber")
-        self.availability_generator.create_availability(5, "PM", "preferred", "Amber")
-        self.availability_generator.create_availability(2, "PM", "available", "Michael")
-        self.availability_generator.display_availability("Amber")
+        self.care_schedule.assign_shift(
+            1, "7:00AM - 1:00PM", "Amber", "preferred")
+        self.care_schedule.assign_shift(
+            2, "1:00PM - 7:00PM", "Michael", "available")
+        self.care_schedule.assign_shift(
+            3, "7:00AM - 1:00PM", "Amber", "preferred")
+        self.care_schedule.assign_shift(
+            4, "1:00PM - 7:00PM", "Michael", "available")
+        self.care_schedule.assign_shift(
+            5, "7:00AM - 1:00PM", "Amber", "preferred")
+        self.care_schedule.assign_shift(
+            6, "1:00PM - 7:00PM", "Michael", "available")
+        self.care_schedule.assign_shift(
+            7, "7:00AM - 1:00PM", "Amber", "preferred")
 
     def generate_html_schedule(self):
         print("\n--- Generating HTML Schedule ---")
         self.care_schedule.display_schedule_as_html()
 
-    def calculate_caregiver_pay(self):
-        print("\n--- Calculating Caregiver Pay ---")
-        for name, details in self.care_schedule.caregivers.items():
-            caregiver = CareGivers(
-                name.capitalize(),
-                details["phone"],
-                details["email"],
-                details["hours_per_day"],
-                details["pay_rate"],
-            )
-            caregiver.calculate_pay()
-
     def run(self):
         self.add_sample_caregivers()
         self.assign_shifts()
-        self.manage_availability()
-        self.calculate_caregiver_pay()
         self.generate_html_schedule()
 
 
