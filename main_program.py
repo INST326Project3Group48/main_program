@@ -132,12 +132,10 @@ class CareGivers:
             print(f"Monthly Pay for {self.name}: ${monthly_pay}")
         else:
             print(f"{self.name} has no hours specified.")
-            
-#Requirement 3
 
+#Requirement 3:HTML For the Calendar
 # Availability options
 AVAILABILITY_OPTIONS = ["preferred", "available", "unavailable"]
-
 # Caregivers schedule
 class CareSchedule:
     def __init__(self):
@@ -235,20 +233,30 @@ class CareSchedule:
             file.write(html_schedule)
         print("HTML care schedule generated successfully!")
 
-# Executional code for HTML
+class Driver:
+    def __init__(self):
+        self.availability_generator = AvailabilityGenerator(2024, 11)
+        self.care_schedule = CareSchedule()
+
+    def run_availability_tests(self):
+        # Run AvailabilityGenerator tests
+        self.availability_generator.create_availability(5, "AM", "preferred", "Amber")
+        self.availability_generator.display_availability("Amber")
+
+    def run_schedule_tests(self):
+        # Run CareSchedule tests
+        self.care_schedule.add_caregiver("Amber", "3015551234", "amber@gmail.com", 8)
+        self.care_schedule.display_schedule_as_html()
+
+    def run(self):
+        # Execute both availability and scheduling tests
+        self.run_availability_tests()
+        self.run_schedule_tests()
+
+
+# Main Program
 if __name__ == "__main__":
-    care_schedule = CareSchedule()
-
-    # Add caregivers
-    care_schedule.add_caregiver("Michael Girma", "3016548980", "mike@gmail.com", 8)
-    care_schedule.add_caregiver("Amber Smith", "3015551234", "amber@gmail.com", 6)
-
-    # Assign shifts based on availability
-    care_schedule.assign_shift(1, "7:00AM - 1:00PM", "Michael Girma", "preferred")
-    care_schedule.assign_shift(1, "1:00PM - 7:00PM", "Amber Smith", "available")
-    care_schedule.assign_shift(3, "7:00AM - 1:00PM", "Amber Smith", "preferred")
-
-    # Generate the HTML calendar
-    care_schedule.display_schedule_as_html()
+    driver = Driver()
+    driver.run()
 
 
