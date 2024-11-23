@@ -1,4 +1,3 @@
-# the main program
 import calendar
 
 # Class to manage caregiver availability
@@ -133,7 +132,6 @@ class CareGivers:
             print(f"Monthly Pay for {self.name}: ${monthly_pay}")
         else:
             print(f"{self.name} has no hours specified.")
-
 
 #Requirement 3:HTML For the Calendar
 # Availability options
