@@ -248,9 +248,10 @@ class Driver:
 
     def assign_shifts(self):
         print("\n--- Assigning Shifts ---")
-        self.care_schedule.assign_shift(1, "7:00AM - 1:00PM", "Amber ", "preferred")
+        self.care_schedule.assign_shift(4, "7:00AM - 1:00PM", "Amber ", "preferred")
         self.care_schedule.assign_shift(6, "1:00PM - 10:00PM", "Michael", "available")
         self.care_schedule.assign_shift(3, "7:00AM - 1:00PM", "Amber", "preferred")
+        self.care_schedule.assign_shift(1, "6:00AM - 2:00PM", "Michael","available")
 
     def manage_availability(self):
         print("\n--- Managing Availability ---")
