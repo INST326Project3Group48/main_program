@@ -133,6 +133,32 @@ class CareGivers:
         else:
             print(f"{self.name} has no hours specified.")
 
+
+# Example showing code.
+if __name__ == "__main__":
+    # Create caregiver instance
+    caregiver1 = CareGivers("Shawn", "1234567890",
+                            "vrobin23@terpmail.umd.edu", 6)
+
+    # Add caregiver
+    caregiver1.add_caregiver()
+
+    # Display all caregivers
+    CareGivers.display_caregivers()
+
+    # Create availability for a month
+    caregiver1.create_monthly_availability(2024, 11)
+
+    # Update availability
+    caregiver1.update_availability(5, "AM", "preferred")
+
+    # Display availability
+    caregiver1.display_availability()
+
+    # Calculate pay
+    caregiver1.calculate_pay()
+# -------------------------------------------------
+
 #Requirement 3:HTML For the Calendar
 # Availability options
 AVAILABILITY_OPTIONS = ["preferred", "available", "unavailable"]
